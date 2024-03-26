@@ -17,63 +17,44 @@ public class Differ {
         String file2 = Files.readString(pathToFile2);
         StringBuilder differResult = new StringBuilder();
 
-        Map<String, String> parsedFile1 = mapper.readValue(file1, HashMap.class);
-        Map<String, String> parsedFile2 = mapper.readValue(file2, HashMap.class);
+        Map<String, Object> parsedFile1 = mapper.readValue(file1, HashMap.class);
+        Map<String, Object> parsedFile2 = mapper.readValue(file2, HashMap.class);
 
         Set<String> keysBothFiles = new HashSet<>(parsedFile1.keySet());
         keysBothFiles.addAll(parsedFile2.keySet());
 
         List<String> keysBothFilesSorted = keysBothFiles.stream()
-                        .sorted()
-                                .toList();
+                .sorted()
+                .toList();
 
-        String test = parsedFile1.get("follow");
-        System.out.println(test);
+        differResult.append("{").append("\n");
+        for (String key : keysBothFilesSorted) {
+            boolean file1ContainsKey = parsedFile1.containsKey(key);
+            boolean file2ContainsKey = parsedFile2.containsKey(key);
+            Object keyValueFile1 = parsedFile1.get(key);
+            Object keyValueFile2 = parsedFile2.get(key);
 
-//        differResult.append("{").append("\n");
-//        for (String key : keysBothFilesSorted) {
-//            if (parsedFile1.containsKey(key)) {
-//
-//                differResult.append("\t" ).append(" ").append(" ").append(key).append(": ").append(parsedFile1.get(key));
-//
-//            }
-//
-//            if ((!parsedFile1.containsKey(key) && parsedFile2.containsKey(key))
-//                    || (!parsedFile1.get(key).equals(parsedFile2.get(key)))) {
-//
-//                differResult.append("\t" ).append("-").append(" ").append(key).append(": ").append(parsedFile1.get(key));
-//
-//            }
-//
-//            if ((parsedFile2.containsKey(key) && parsedFile1.containsKey(key))
-//                    || (!parsedFile1.get(key).equals(parsedFile2.get(key)))) {
-//
-//                differResult.append("\t" ).append("-").append(" ").append(key).append(": ").append(parsedFile1.get(key));
-//
-//            }
-//        }
-//        differResult.append("}").append("\n");
-//
-//        System.out.println(pathToFile1);
-//        System.out.println(parsedFile1);
-//        System.out.println();
-//
-//        System.out.println(pathToFile2);
-//        System.out.println(parsedFile2);
-//        System.out.println();
-//
-//        System.out.println(keysBothFiles);
-//        System.out.println(keysBothFilesSorted);
-//
-//        System.out.println(differResult);
+            if (file1ContainsKey && file2ContainsKey
+                && keyValueFile1.equals(keyValueFile2)) {
 
-//        System.out.println(text1);
-//        System.out.println(text2);
+                differResult.append("    ").append(key).append(": ").append(keyValueFile1).append("\n");
+            }
 
-//        var test = parsedFile1.get("follow");
-//        System.out.println(test);
-//        System.out.println(parsedFile1);
+            if ((file1ContainsKey && !file2ContainsKey)
+                    || (!keyValueFile2.equals(keyValueFile1) && keyValueFile1 != null)) {
 
-        return "";
+                differResult.append("  - ").append(key).append(": ").append(keyValueFile1).append("\n");
+            }
+
+            if ((!file1ContainsKey && file2ContainsKey)
+                    || (!keyValueFile1.equals(keyValueFile2) && keyValueFile2 != null)) {
+
+                differResult.append("  + ").append(key).append(": ").append(keyValueFile2).append("\n");
+            }
+
+        }
+        differResult.append("}");
+
+        return differResult.toString();
     }
 }
