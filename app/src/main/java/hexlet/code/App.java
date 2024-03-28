@@ -1,20 +1,21 @@
 package hexlet.code;
 
-import jdk.jfr.StackTrace;
+//import jdk.jfr.StackTrace;
 import picocli.CommandLine;
 import picocli.CommandLine.Help.ColorScheme;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 import picocli.CommandLine.Parameters;
 
-import java.io.File;
+//import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.security.MessageDigest;
+//import java.security.MessageDigest;
 import java.util.concurrent.Callable;
-import hexlet.code.Differ;
+
+import static hexlet.code.Differ.generate;
 
 @Command(name = "gendiff", mixinStandardHelpOptions = true, version = "gendiff 0.01",
         description = "Compares two configuration files and shows a difference.")
@@ -31,7 +32,7 @@ class App implements Callable<Integer> {
     private String format = "stylish";
 
     @Override
-    public Integer call() throws Exception { // your business logic goes here...
+    public Integer call() throws IOException { // your business logic goes here...
 
         Path pathToFile1 = Paths.get(pathFile1).toAbsolutePath().normalize();
         Path pathToFile2 = Paths.get(pathFile2).toAbsolutePath().normalize();
@@ -43,7 +44,7 @@ class App implements Callable<Integer> {
         }
 
         try {
-            String differResult = Differ.generate(pathToFile1, pathToFile2);
+            String differResult = generate(pathToFile1, pathToFile2);
             System.out.println(differResult);
         } catch (IOException e) {
             e.printStackTrace();
@@ -54,8 +55,8 @@ class App implements Callable<Integer> {
 
     public static void main(String... args) {
         ColorScheme colorScheme = new ColorScheme.Builder()
-                .options(CommandLine.Help.Ansi.Style.bold ,CommandLine.Help.Ansi.Style.fg_red)
-                .parameters(CommandLine.Help.Ansi.Style.bold ,CommandLine.Help.Ansi.Style.fg_green)
+                .options(CommandLine.Help.Ansi.Style.bold, CommandLine.Help.Ansi.Style.fg_red)
+                .parameters(CommandLine.Help.Ansi.Style.bold, CommandLine.Help.Ansi.Style.fg_green)
                 .build();
 
         new CommandLine(new App())

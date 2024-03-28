@@ -3,19 +3,22 @@ package hexlet.code;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.Set;
+import java.util.HashSet;
 
-import com.fasterxml.jackson.core.*;
-import com.fasterxml.jackson.annotation.*;
-import com.fasterxml.jackson.databind.*;
+//import com.fasterxml.jackson.core.*;
+//import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class Differ {
-    public static String generate(Path pathToFile1, Path pathToFile2) throws Exception {
+    public static String generate(Path pathToFile1, Path pathToFile2) throws IOException {
 
         ObjectMapper mapper = new ObjectMapper();
         String file1 = Files.readString(pathToFile1);
         String file2 = Files.readString(pathToFile2);
-        StringBuilder differResult = new StringBuilder();
 
         Map<String, Object> parsedFile1 = mapper.readValue(file1, HashMap.class);
         Map<String, Object> parsedFile2 = mapper.readValue(file2, HashMap.class);
@@ -26,6 +29,13 @@ public class Differ {
         List<String> keysBothFilesSorted = keysBothFiles.stream()
                 .sorted()
                 .toList();
+
+        return generateDiffer(keysBothFilesSorted, parsedFile1, parsedFile2);
+    }
+
+    private static String generateDiffer(List<String> keysBothFilesSorted, Map<String, Object> parsedFile1,
+                                         Map<String, Object> parsedFile2) {
+        StringBuilder differResult = new StringBuilder();
 
         differResult.append("{").append("\n");
         for (String key : keysBothFilesSorted) {
