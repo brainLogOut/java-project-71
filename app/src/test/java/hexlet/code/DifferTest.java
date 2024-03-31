@@ -13,10 +13,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class DifferTest {
-//    static File firstJsonFile = new File("src/test/resources/1.json");
-//    static File secondJsonFile = new File("src/test/resources/2.json");
-    static Path firstJsonFile = Paths.get("src/test/resources/1.json").toAbsolutePath();
-    static Path secondJsonFile = Paths.get("src/test/resources/2.json").toAbsolutePath();
+    static File firstJsonFile = new File("src/test/resources/1.json");
+    static File secondJsonFile = new File("src/test/resources/2.json");
 
     @BeforeAll
     public static void filesInit() throws IOException {
@@ -32,17 +30,14 @@ public class DifferTest {
                 + "  \"host\": \"hexlet.io\"\n"
                 + "}";
 
-        Files.writeString(firstJsonFile, json1);
-        Files.writeString(secondJsonFile, json2);
-
-//        Files.writeString(firstJsonFile.toPath().toAbsolutePath(), json1);
-//        Files.writeString(secondJsonFile.toPath().toAbsolutePath(), json2);
+        Files.writeString(firstJsonFile.toPath().toAbsolutePath(), json1);
+        Files.writeString(secondJsonFile.toPath().toAbsolutePath(), json2);
     }
 
     @AfterAll
     public static void filesDelete() {
-        firstJsonFile.toFile().delete();
-        secondJsonFile.toFile().delete();
+        firstJsonFile.delete();
+        secondJsonFile.delete();
     }
 
     @Test
@@ -55,10 +50,9 @@ public class DifferTest {
                 + "  + timeout: 20\n"
                 + "  + verbose: true\n"
                 + "}";
-//        Path path1 = Paths.get(firstJsonFile.getAbsolutePath());
-//        Path path2 = Paths.get(secondJsonFile.getAbsolutePath());
-//        String actual = Differ.generate(path1, path2);
-        String actual = Differ.generate(firstJsonFile, secondJsonFile);
+        Path path1 = Paths.get(firstJsonFile.getAbsolutePath());
+        Path path2 = Paths.get(secondJsonFile.getAbsolutePath());
+        String actual = Differ.generate(path1, path2);
 
         assertEquals(expected, actual);
     }
