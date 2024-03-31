@@ -30,8 +30,8 @@ public class DifferTest {
                 + "  \"host\": \"hexlet.io\"\n"
                 + "}";
 
-        Files.writeString(firstJsonFile.toPath().toAbsolutePath(), json1);
-        Files.writeString(secondJsonFile.toPath().toAbsolutePath(), json2);
+        Files.writeString(firstJsonFile.toPath(), json1);
+        Files.writeString(secondJsonFile.toPath(), json2);
     }
 
     @AfterAll
