@@ -14,12 +14,10 @@ jobs:
           distribution: 'temurin'
       - uses: gradle/gradle-build-action@v2
         with:
-#          gradle-version: 8.5
+          gradle-version: 8.5
           build-root-directory: app
-      - run: ./gradlew checkstyleMain
-        with:
-          root-directory: app
-      - run: ./gradlew test
+      - run: ./app/gradlew checkstyleMain -p app
+      - run: ./app/gradlew test -p app
 
 #name: student-check
 #
