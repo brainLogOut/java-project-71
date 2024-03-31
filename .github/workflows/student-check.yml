@@ -18,8 +18,7 @@ jobs:
           build-root-directory: app
       - run: ./gradlew checkstyleMain
         with:
-          #          gradle-version: 8.5
-          build-root-directory: app
+          root-directory: app
       - run: ./gradlew test
 
 #name: student-check
