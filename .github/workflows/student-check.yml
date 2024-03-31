@@ -18,6 +18,8 @@ jobs:
       - run: pwd
       - run: ls -la
       - run: tree
+      - run: cd app
+      - run: pwd
       - run: ./app/gradlew checkstyleMain
       - run: ./app/gradlew test
 
