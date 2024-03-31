@@ -16,7 +16,7 @@ jobs:
         with:
           gradle-version: 8.5
           build-root-directory: app
-      - run: ./app/gradlew build -p app
+      - run: sudo ./app/gradlew build -p app
 #      - run: ./app/gradlew checkstyleMain -p app
 #      - run: sudo ./app/gradlew test -p app
 
