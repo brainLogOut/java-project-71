@@ -8,8 +8,15 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-#      - run: ./app/make say-hello
-	  - run: ./gradlew build
+      - uses: actions/setup-java@v3
+        with:
+          java-version: '20'
+          distribution: 'temurin'
+      - uses: gradle/gradle-build-action@v2
+        with:
+          gradle-version: 8.5
+      - run: ./gradlew checkstyleMain
+      - run: ./gradlew test
 
 #name: student-check
 #
