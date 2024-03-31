@@ -15,6 +15,8 @@ jobs:
       - uses: gradle/gradle-build-action@v2
         with:
           gradle-version: 8.5
+      - run: pwd
+      - run: cd app
       - run: ./app/gradlew checkstyleMain
       - run: ./app/gradlew test
 
