@@ -8,7 +8,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-      - run: /app/make say-hello
+      - run: ./app/make say-hello
 #	  - run: ./gradlew build
 
 #name: student-check
