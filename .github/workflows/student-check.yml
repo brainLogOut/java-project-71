@@ -20,6 +20,7 @@ jobs:
           gradle-version: 8.5
           build-root-directory: app
 
+      - run: pwd
       - run: ./app/gradlew build -p app --no-daemon
 #      - run: ./app/gradlew checkstyleMain -p app
 #      - run: sudo ./app/gradlew test -p app
