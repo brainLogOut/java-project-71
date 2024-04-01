@@ -18,8 +18,8 @@ public class DifferTest {
 
 //    static Path firstJsonFile = Paths.get(System.getenv("HOME") + "/1.json");
 //    static Path secondJsonFile = Paths.get(System.getenv("HOME") + "/2.json");
-    static Path firstJsonFile = Paths.get(System.getenv("PWD"), "src/test/resources/1.json");
-    static Path secondJsonFile = Paths.get(System.getenv("PWD"), "src/test/resources/2.json");
+    static Path firstJsonFile = Paths.get(System.getenv("PWD"), "app/src/test/resources/1.json");
+    static Path secondJsonFile = Paths.get(System.getenv("PWD"), "app/src/test/resources/2.json");
 
     @BeforeAll
     public static void filesInit() throws IOException {
