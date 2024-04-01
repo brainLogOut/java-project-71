@@ -13,8 +13,10 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class DifferTest {
-    static Path firstJsonFile = Paths.get("src/test/resources/fixtures/1.json").toAbsolutePath();
-    static Path secondJsonFile = Paths.get("src/test/resources/fixtures/2.json").toAbsolutePath();
+    static Path p1 = Paths.get("src/test/resources/fixtures/1.json").toAbsolutePath();
+    static Path firstJsonFile = p1;
+    static Path p2 = Paths.get("src/test/resources/fixtures/2.json").toAbsolutePath();
+    static Path secondJsonFile = p2;
 
 //    static Path firstJsonFile = Paths.get(System.getenv("HOME") + "/1.json");
 //    static Path secondJsonFile = Paths.get(System.getenv("HOME") + "/2.json");
