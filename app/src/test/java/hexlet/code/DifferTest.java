@@ -5,7 +5,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import java.io.File;
+//import java.io.File;
 import java.io.IOException;
 //import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -13,8 +13,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class DifferTest {
-    static File firstJsonFile = new File("src/test/resources/1.json");
-    static File secondJsonFile = new File("src/test/resources/2.json");
+    static Path firstJsonFile = Paths.get("src/test/resources/1.json");
+    static Path secondJsonFile = Paths.get("src/test/resources/2.json");
 
     @BeforeAll
     public static void filesInit() throws IOException {
@@ -30,14 +30,14 @@ public class DifferTest {
                 + "  \"host\": \"hexlet.io\"\n"
                 + "}";
 
-        Files.writeString(firstJsonFile.toPath(), json1);
-        Files.writeString(secondJsonFile.toPath(), json2);
+        Files.writeString(firstJsonFile, json1);
+        Files.writeString(secondJsonFile, json2);
     }
 
     @AfterAll
     public static void filesDelete() {
-        firstJsonFile.delete();
-        secondJsonFile.delete();
+        firstJsonFile.toFile().delete();
+        secondJsonFile.toFile().delete();
     }
 
     @Test
@@ -50,9 +50,7 @@ public class DifferTest {
                 + "  + timeout: 20\n"
                 + "  + verbose: true\n"
                 + "}";
-        Path path1 = Paths.get(firstJsonFile.getAbsolutePath());
-        Path path2 = Paths.get(secondJsonFile.getAbsolutePath());
-        String actual = Differ.generate(path1, path2);
+        String actual = Differ.generate(firstJsonFile, secondJsonFile);
 
         assertEquals(expected, actual);
     }
