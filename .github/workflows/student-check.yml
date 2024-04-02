@@ -21,7 +21,7 @@ jobs:
           build-root-directory: app
 
       - run: pwd
-      - run: ./app/gradlew build -p app --no-daemon
+      - run: ./app/gradlew build -p app
 #      - run: ./app/gradlew checkstyleMain -p app
 #      - run: sudo ./app/gradlew test -p app
 
