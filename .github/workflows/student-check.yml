@@ -21,12 +21,13 @@ jobs:
           build-root-directory: app
 
       - run: pwd
+      - run: env
       - run: ./app/gradlew build -p app
-      - name: Upload build artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: Package
-          path: /home/runner/work/java-project-71/java-project-71/app/src/test/resources/fixtures/
+#      - name: Upload build artifacts
+#        uses: actions/upload-artifact@v4
+#        with:
+#          name: Package
+#          path: /home/runner/work/java-project-71/java-project-71/app/src/test/resources/fixtures/
 #      - run: ./app/gradlew checkstyleMain -p app
 #      - run: sudo ./app/gradlew test -p app
 
