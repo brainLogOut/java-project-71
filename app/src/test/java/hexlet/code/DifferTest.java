@@ -16,12 +16,22 @@ import java.nio.file.Paths;
 public class DifferTest {
     static Path firstJsonFile = Paths.get("./src/test/resources/1.json").toAbsolutePath().normalize();
     static Path secondJsonFile = Paths.get("./src/test/resources/2.json").toAbsolutePath().normalize();
+    static Path firstYamlFile = Paths.get("./src/test/resources/1.yaml").toAbsolutePath().normalize();
+    static Path secondYamlFile = Paths.get("./src/test/resources/2.yaml").toAbsolutePath().normalize();
     static Path differFirstToSecond = Paths.get("./src/test/resources/1differ2.txt").toAbsolutePath().normalize();
 
     @Test
-    public void differTest() throws IOException {
+    public void differTestJson() throws IOException {
         String expected = Files.readString(differFirstToSecond);
         String actual = Differ.generate(firstJsonFile, secondJsonFile);
+
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void differTestYaml() throws IOException {
+        String expected = Files.readString(differFirstToSecond);
+        String actual = Differ.generate(firstYamlFile, secondYamlFile);
 
         assertEquals(expected, actual);
     }

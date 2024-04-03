@@ -21,7 +21,6 @@ jobs:
           build-root-directory: app
 
       - run: ./app/gradlew build -p app
-      - run: env
 
       - name: Publish code coverage
         uses: paambaati/codeclimate-action@v5.0.0
@@ -31,4 +30,3 @@ jobs:
         with:
           coverageCommand: ./app/gradlew jacocoTestReport -p app
           coverageLocations: ${{github.workspace}}/app/build/reports/jacoco/test/jacocoTestReport.xml:jacoco
-      - run: echo $CC_TEST_REPORTER_ID

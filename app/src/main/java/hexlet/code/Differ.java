@@ -1,27 +1,20 @@
 package hexlet.code;
 
 import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.Map;
-import java.util.HashMap;
 import java.util.Set;
 import java.util.HashSet;
 
 //import com.fasterxml.jackson.core.*;
 //import com.fasterxml.jackson.annotation.*;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import hexlet.code.utils.Parser;
 
 public class Differ {
     public static String generate(Path pathToFile1, Path pathToFile2) throws IOException {
-
-        ObjectMapper mapper = new ObjectMapper();
-        String file1 = Files.readString(pathToFile1);
-        String file2 = Files.readString(pathToFile2);
-
-        Map<String, Object> parsedFile1 = mapper.readValue(file1, HashMap.class);
-        Map<String, Object> parsedFile2 = mapper.readValue(file2, HashMap.class);
+        Map<String, Object> parsedFile1 = Parser.parse(pathToFile1);
+        Map<String, Object> parsedFile2 = Parser.parse(pathToFile2);
 
         Set<String> keysBothFiles = new HashSet<>(parsedFile1.keySet());
         keysBothFiles.addAll(parsedFile2.keySet());
