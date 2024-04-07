@@ -44,7 +44,7 @@ class App implements Callable<Integer> {
         }
 
         try {
-            String differResult = generate(pathToFile1, pathToFile2);
+            String differResult = generate(pathToFile1, pathToFile2, format);
             System.out.println(differResult);
         } catch (IOException e) {
             e.printStackTrace();

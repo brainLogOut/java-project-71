@@ -23,7 +23,7 @@ public class DifferTest {
     @Test
     public void differTestJson() throws IOException {
         String expected = Files.readString(differFirstToSecond);
-        String actual = Differ.generate(firstJsonFile, secondJsonFile);
+        String actual = Differ.generate(firstJsonFile, secondJsonFile, "stylish");
 
         assertEquals(expected, actual);
     }
@@ -31,7 +31,7 @@ public class DifferTest {
     @Test
     public void differTestYaml() throws IOException {
         String expected = Files.readString(differFirstToSecond);
-        String actual = Differ.generate(firstYamlFile, secondYamlFile);
+        String actual = Differ.generate(firstYamlFile, secondYamlFile, "stylish");
 
         assertEquals(expected, actual);
     }

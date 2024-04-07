@@ -2,17 +2,21 @@ package hexlet.code;
 
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.HashSet;
+import java.util.Map;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.ArrayList;
+
 
 //import com.fasterxml.jackson.core.*;
 //import com.fasterxml.jackson.annotation.*;
 import hexlet.code.utils.Parser;
+import hexlet.code.utils.Stylish;
 
 public class Differ {
-    public static String generate(Path pathToFile1, Path pathToFile2) throws IOException {
+    public static String generate(Path pathToFile1, Path pathToFile2, String format) throws IOException {
         Map<String, Object> parsedFile1 = Parser.parse(pathToFile1);
         Map<String, Object> parsedFile2 = Parser.parse(pathToFile2);
 
@@ -23,14 +27,17 @@ public class Differ {
                 .sorted()
                 .toList();
 
-        return generateDiffer(keysBothFilesSorted, parsedFile1, parsedFile2);
+        Map<List<String>, Object> differOfFiles = generateDiffer(keysBothFilesSorted, parsedFile1, parsedFile2);
+
+        return Stylish.generateStylishFormat(differOfFiles);
     }
 
-    private static String generateDiffer(List<String> keysBothFilesSorted, Map<String, Object> parsedFile1,
-                                         Map<String, Object> parsedFile2) {
-        StringBuilder differResult = new StringBuilder();
+    private static Map<List<String>, Object> generateDiffer(List<String> keysBothFilesSorted,
+                                                            Map<String, Object> parsedFile1,
+                                                            Map<String, Object> parsedFile2) {
 
-        differResult.append("{").append("\n");
+        Map<List<String>, Object> differOfFiles = new LinkedHashMap<>();
+
         for (String key : keysBothFilesSorted) {
             boolean file1ContainsKey = parsedFile1.containsKey(key);
             boolean file2ContainsKey = parsedFile2.containsKey(key);
@@ -40,24 +47,31 @@ public class Differ {
             if (file1ContainsKey && file2ContainsKey
                 && keyValueFile1.equals(keyValueFile2)) {
 
-                differResult.append("    ").append(key).append(": ").append(keyValueFile1).append("\n");
+                List<String> complexKey = new ArrayList<>();
+                complexKey.add(" ");
+                complexKey.add(key);
+                differOfFiles.put(complexKey, keyValueFile1);
             }
 
             if ((file1ContainsKey && !file2ContainsKey)
                     || (!keyValueFile2.equals(keyValueFile1) && keyValueFile1 != null)) {
 
-                differResult.append("  - ").append(key).append(": ").append(keyValueFile1).append("\n");
+                List<String> complexKey = new ArrayList<>();
+                complexKey.add("-");
+                complexKey.add(key);
+                differOfFiles.put(complexKey, keyValueFile1);
             }
 
             if ((!file1ContainsKey && file2ContainsKey)
                     || (!keyValueFile1.equals(keyValueFile2) && keyValueFile2 != null)) {
 
-                differResult.append("  + ").append(key).append(": ").append(keyValueFile2).append("\n");
+                List<String> complexKey = new ArrayList<>();
+                complexKey.add("+");
+                complexKey.add(key);
+                differOfFiles.put(complexKey, keyValueFile2);
             }
-
         }
-        differResult.append("}");
 
-        return differResult.toString();
+        return differOfFiles;
     }
 }
