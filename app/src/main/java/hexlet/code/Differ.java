@@ -13,7 +13,7 @@ import java.util.ArrayList;
 //import com.fasterxml.jackson.core.*;
 //import com.fasterxml.jackson.annotation.*;
 import hexlet.code.utils.Parser;
-import hexlet.code.utils.Stylish;
+import hexlet.code.utils.Formatter;
 
 public class Differ {
     public static String generate(Path pathToFile1, Path pathToFile2, String format) throws IOException {
@@ -29,7 +29,7 @@ public class Differ {
 
         Map<List<String>, Object> differOfFiles = generateDiffer(keysBothFilesSorted, parsedFile1, parsedFile2);
 
-        return Stylish.generateStylishFormat(differOfFiles);
+        return Formatter.generateStylishFormat(differOfFiles);
     }
 
     private static Map<List<String>, Object> generateDiffer(List<String> keysBothFilesSorted,
@@ -41,8 +41,20 @@ public class Differ {
         for (String key : keysBothFilesSorted) {
             boolean file1ContainsKey = parsedFile1.containsKey(key);
             boolean file2ContainsKey = parsedFile2.containsKey(key);
-            Object keyValueFile1 = parsedFile1.get(key);
-            Object keyValueFile2 = parsedFile2.get(key);
+            Object keyValueFile1;
+            Object keyValueFile2;
+
+            if (parsedFile1.containsKey(key) && parsedFile1.get(key) == null) {
+                keyValueFile1 = "null";
+            } else {
+                keyValueFile1 = parsedFile1.get(key);
+            }
+
+            if (parsedFile2.containsKey(key) && parsedFile2.get(key) == null) {
+                keyValueFile2 = "null";
+            } else {
+                keyValueFile2 = parsedFile2.get(key);
+            }
 
             if (file1ContainsKey && file2ContainsKey
                 && keyValueFile1.equals(keyValueFile2)) {

@@ -3,7 +3,7 @@ package hexlet.code.utils;
 import java.util.List;
 import java.util.Map;
 
-public class Stylish {
+public class Formatter {
     public static String generateStylishFormat(Map<List<String>, Object> differOfFiles) {
         StringBuilder stylishFormat = new StringBuilder();
 
