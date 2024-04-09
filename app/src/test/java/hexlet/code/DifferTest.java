@@ -14,15 +14,18 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class DifferTest {
-    static Path firstJsonFile = Paths.get("./src/test/resources/1.json").toAbsolutePath().normalize();
-    static Path secondJsonFile = Paths.get("./src/test/resources/2.json").toAbsolutePath().normalize();
-    static Path firstYamlFile = Paths.get("./src/test/resources/1.yaml").toAbsolutePath().normalize();
-    static Path secondYamlFile = Paths.get("./src/test/resources/2.yaml").toAbsolutePath().normalize();
-    static Path differFirstToSecond = Paths.get("./src/test/resources/1differ2.txt").toAbsolutePath().normalize();
+    static Path firstJsonFile = Paths.get("./src/test/resources/1d.json").toAbsolutePath().normalize();
+    static Path secondJsonFile = Paths.get("./src/test/resources/2d.json").toAbsolutePath().normalize();
+    static Path firstYamlFile = Paths.get("./src/test/resources/1d.yml").toAbsolutePath().normalize();
+    static Path secondYamlFile = Paths.get("./src/test/resources/2d.yml").toAbsolutePath().normalize();
+    static Path differFirstToSecondStylish =
+            Paths.get("./src/test/resources/1differ2d_Stylish.txt").toAbsolutePath().normalize();
+    static Path differFirstToSecondPlain =
+            Paths.get("./src/test/resources/1differ2d_Plain.txt").toAbsolutePath().normalize();
 
     @Test
     public void differTestJson() throws IOException {
-        String expected = Files.readString(differFirstToSecond);
+        String expected = Files.readString(differFirstToSecondStylish);
         String actual = Differ.generate(firstJsonFile, secondJsonFile, "stylish");
 
         assertEquals(expected, actual);
@@ -30,7 +33,15 @@ public class DifferTest {
 
     @Test
     public void differTestYaml() throws IOException {
-        String expected = Files.readString(differFirstToSecond);
+        String expected = Files.readString(differFirstToSecondStylish);
+        String actual = Differ.generate(firstYamlFile, secondYamlFile, "stylish");
+
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void differTestPlainFormat() throws IOException {
+        String expected = Files.readString(differFirstToSecondStylish);
         String actual = Differ.generate(firstYamlFile, secondYamlFile, "stylish");
 
         assertEquals(expected, actual);
