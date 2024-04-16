@@ -11,7 +11,6 @@ import java.util.Map;
 
 public class Parser {
     public static Map<String, Object> parse(Path pathToFile) throws IOException {
-        Map<String, Object> parsedFile = new HashMap<>();
         String file = Files.readString(pathToFile);
 
         if (pathToFile.toString().endsWith(".json")) {
@@ -19,9 +18,9 @@ public class Parser {
         } else if (pathToFile.toString().endsWith(".yaml")
                 || pathToFile.toString().endsWith(".yml")) {
             return parseYaml(file);
+        } else {
+            throw new RuntimeException("Not support file format");
         }
-
-        return parsedFile;
     }
 
     private static Map<String, Object> parseYaml(String file) throws IOException {

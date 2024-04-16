@@ -24,7 +24,7 @@ public class DifferTest {
             Paths.get("./src/test/resources/1differ2d_Plain.txt").toAbsolutePath().normalize();
 
     @Test
-    public void differTestJson() throws IOException {
+    public void differTestStylishJson() throws IOException {
         String expected = Files.readString(differFirstToSecondStylish);
         String actual = Differ.generate(firstJsonFile, secondJsonFile, "stylish");
 
@@ -32,7 +32,7 @@ public class DifferTest {
     }
 
     @Test
-    public void differTestYaml() throws IOException {
+    public void differTestStylishYaml() throws IOException {
         String expected = Files.readString(differFirstToSecondStylish);
         String actual = Differ.generate(firstYamlFile, secondYamlFile, "stylish");
 
@@ -40,9 +40,17 @@ public class DifferTest {
     }
 
     @Test
-    public void differTestPlainFormat() throws IOException {
-        String expected = Files.readString(differFirstToSecondStylish);
-        String actual = Differ.generate(firstYamlFile, secondYamlFile, "stylish");
+    public void differTestPlainJson() throws IOException {
+        String expected = Files.readString(differFirstToSecondPlain);
+        String actual = Differ.generate(firstJsonFile, secondJsonFile, "plain");
+
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void differTestPlainYaml() throws IOException {
+        String expected = Files.readString(differFirstToSecondPlain);
+        String actual = Differ.generate(firstYamlFile, secondYamlFile, "plain");
 
         assertEquals(expected, actual);
     }

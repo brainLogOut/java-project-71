@@ -13,7 +13,6 @@ import java.util.ArrayList;
 //import com.fasterxml.jackson.core.*;
 //import com.fasterxml.jackson.annotation.*;
 import hexlet.code.utils.Parser;
-import hexlet.code.utils.Formatter;
 
 public class Differ {
     public static String generate(Path pathToFile1, Path pathToFile2, String format) throws IOException {
@@ -27,16 +26,16 @@ public class Differ {
                 .sorted()
                 .toList();
 
-        Map<List<String>, Object> differOfFiles = generateDiffer(keysBothFilesSorted, parsedFile1, parsedFile2);
+        Map<List<String>, List<Object>> differOfFiles = generateDiffer(keysBothFilesSorted, parsedFile1, parsedFile2);
 
-        return Formatter.generateStylishFormat(differOfFiles);
+        return Formatter.format(format, differOfFiles);
     }
 
-    private static Map<List<String>, Object> generateDiffer(List<String> keysBothFilesSorted,
+    private static Map<List<String>, List<Object>> generateDiffer(List<String> keysBothFilesSorted,
                                                             Map<String, Object> parsedFile1,
                                                             Map<String, Object> parsedFile2) {
 
-        Map<List<String>, Object> differOfFiles = new LinkedHashMap<>();
+        Map<List<String>, List<Object>> differOfFiles = new LinkedHashMap<>();
 
         for (String key : keysBothFilesSorted) {
             boolean file1ContainsKey = parsedFile1.containsKey(key);
@@ -60,27 +59,50 @@ public class Differ {
                 && keyValueFile1.equals(keyValueFile2)) {
 
                 List<String> complexKey = new ArrayList<>();
+                List<Object> complexValue = new ArrayList<>();
+
                 complexKey.add(" ");
                 complexKey.add(key);
-                differOfFiles.put(complexKey, keyValueFile1);
-            }
+                complexValue.add(keyValueFile1);
+                complexValue.add(keyValueFile2);
 
-            if ((file1ContainsKey && !file2ContainsKey)
+                differOfFiles.put(complexKey, complexValue);
+            } else if (file1ContainsKey && file2ContainsKey
+                    && !keyValueFile1.equals(keyValueFile2)) {
+
+                List<String> complexKey = new ArrayList<>();
+                List<Object> complexValue = new ArrayList<>();
+
+                complexKey.add("-+");
+                complexKey.add(key);
+                complexValue.add(keyValueFile1);
+                complexValue.add(keyValueFile2);
+
+                differOfFiles.put(complexKey, complexValue);
+            } else if ((file1ContainsKey && !file2ContainsKey)
                     || (!keyValueFile2.equals(keyValueFile1) && keyValueFile1 != null)) {
 
                 List<String> complexKey = new ArrayList<>();
+                List<Object> complexValue = new ArrayList<>();
+
                 complexKey.add("-");
                 complexKey.add(key);
-                differOfFiles.put(complexKey, keyValueFile1);
-            }
+                complexValue.add(keyValueFile1);
+                complexValue.add(keyValueFile2);
 
-            if ((!file1ContainsKey && file2ContainsKey)
+                differOfFiles.put(complexKey, complexValue);
+            } else if ((!file1ContainsKey && file2ContainsKey)
                     || (!keyValueFile1.equals(keyValueFile2) && keyValueFile2 != null)) {
 
                 List<String> complexKey = new ArrayList<>();
+                List<Object> complexValue = new ArrayList<>();
+
                 complexKey.add("+");
                 complexKey.add(key);
-                differOfFiles.put(complexKey, keyValueFile2);
+                complexValue.add(keyValueFile1);
+                complexValue.add(keyValueFile2);
+
+                differOfFiles.put(complexKey, complexValue);
             }
         }
 
